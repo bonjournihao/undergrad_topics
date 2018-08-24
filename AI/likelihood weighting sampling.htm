@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0042)http://www.eng.utah.edu/~mccully/cs5300lw/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<title>CS5300 - Spring 2009 - Likelihood Weighting</title>
+<link href="./likelihood weighting sampling_files/projects-U.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<h2>Likelihood Weighting</h2><br>
+The purpose of this webpage is to provide a detailed example of likelihood weighting.
+Prepared by Duane A. McCully, University of Utah, Spring 2009.
+<h3>Sample Network</h3>
+Consider the alarm network (page 494, Figure 14.2).<br>
+<img src="./likelihood weighting sampling_files/alarm.jpg"><br>
+<h3>Generating Likelihood Weights</h3>
+A simple description of the likelihood-weighting algorithm described
+on page 515 (Figure 14.14) is as follows:
+<p>
+    At the time that the network is sampled, the state of some
+    nodes will be known and others will not.&nbsp;&nbsp;
+    The nodes whose values are known are referred to as evidence variables.&nbsp;&nbsp;
+    So, given the evidence, we need to query the remaining nodes to determine
+    the state of the entire network.&nbsp;&nbsp;
+    When this is complete a likelihood weight is assigned to this sample
+    by multiplying together the probabilities of each evidence variable given
+    its parents.&nbsp;&nbsp;
+    This result is stored in a map, that we will name <b>W</b>, that associates all of the
+    variables in the network with its weight.&nbsp;&nbsp;
+    In slightly more detail:
+    </p><ol>
+      <li>
+        A temporary variable, <em>w</em> is set to 1.&nbsp;&nbsp;
+        This will hold the calculated weight of this sample.
+      </li>
+      <li>
+        A temporary variable, <em>x</em> is set to empty.&nbsp;&nbsp;
+        This will hold the state of each node for this sample.&nbsp;&nbsp;
+        For example, if the state of the network, including both evidence variables
+        and variables that were queried, were as follows: <em>Burglary=false</em>,
+        <em>Earthquake=false</em>, <em>Alarm=false</em>, <em>JohnCalls=true</em>,
+        <em>MaryCalls=false</em>, this could be represented as <em>x</em>
+        = (~b,~e,~a,j,~m).
+      </li>
+      <li>
+        Each node in the network is examined.  If the node is evidence, then we
+        perform the following calculation:<br><br>
+        <em>w</em> = <em>w</em>p(currentNode | parents of currentNode)<br><br>
+        If the current node is not evidence, then it is sampled to determine
+        its state.&nbsp;&nbsp;
+        It does not contribute to the weight calculation.&nbsp;&nbsp;
+        <p>
+        Whether the node considered is evidence, or whether is state is discovered
+        through sampling, its state is added to <em>x</em>.
+        </p>
+      </li>
+    </ol>
+    After the entire network is examined for this sample, we will be left with
+    <em>x</em> and <em>w</em>,  representing the state of the network and the
+    likelihood weight to be associated to that state, respectively.  This is
+    added to <b>W</b> using <em>x</em> as the key and <em>w</em> as the data
+    value.  If <em>x</em> already exists in <b>W</b>, then <em>w</em> is added
+    to the data value associated to <em>x</em> in <b>W</b>.<br><br>
+<p></p>
+We will now generate a set of samples for the above Alarm network:
+<h4>Sample 1</h4>
+<ol>
+  <li>
+    Evidence is <em>Burglary=false</em> and <em>Earthquake=false</em>.&nbsp;&nbsp;
+    We will now query the remaining nodes in the network to determine their state.
+  </li>
+  <li>
+    We now set the weight <em>w</em> is set to 1.0 and <em>x</em> to empty.
+  </li>
+  <li>
+    <em>Burglary</em> is an evidence variable with value <em>false</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>Burglary=False</em>) = (1.0)(0.999) = 0.999&nbsp;&nbsp;
+    <br><em>x</em> = (~b).
+  </li>
+  <li>
+    <em>Earthquake</em> is an evidence variable with value <em>false</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>Earthquake=False</em>) = (0.999)(0.998) =  0.997&nbsp;&nbsp;
+    <br><em>x</em> = (~b,~e).
+  </li>
+  <li>
+    We sample from p(<em>Alarm</em>|<em>Burglary=false</em>), <em>Earthquake=false</em>) = &lt;0.001, 0.999&gt;; suppose this returns <em>false</em>.
+    <br><em>x</em> = (~b,~e,~a).
+  </li>
+  <li>
+    We sample from p(<em>JohnCalls</em>|<em>Alarm=false</em>) = &lt;0.05, 0.95&gt;; suppose this 
+    returns <em>false</em>.
+    <br><em>x</em> = (~b,~e,~a,~j).
+  </li>
+  <li>
+    We sample from p(<em>MaryCalls</em>|<em>Alarm=false</em>) = &lt;0.01, 0.99&gt;; suppose this 
+    returns <em>false</em>.
+    <br><em>x</em> = (~b,~e,~a,~j,~m).
+  </li>
+</ol>
+<br>
+For this example, the weighted sample is <em>Burglary=false</em>, <em>Earthquake=false</em>, <em>Alarm=false</em>, <em>JohnCalls=false</em>, <em>MaryCalls=false</em> with a weight of 0.997.&nbsp;&nbsp;
+Now the book speaks of "<b>W</b>, a vector of weighted counts over <em>X</em>."&nbsp;&nbsp;
+So pursuant to this terminology, we think of a map in C++ whose key is the tuple (~b,~e,a,j,m) and whose mapped value is the weight.&nbsp;&nbsp;
+Or, in python, a dict() object.&nbsp;&nbsp;
+Any weight that is computed through the above algorithm is added to any existing weight that matches the key in <b>W</b>.&nbsp;&nbsp;
+Since this is our first sample, there is no such key in <b>W</b> so the existing weight is effectively zero.&nbsp;&nbsp;
+Here is what <b>W</b> looks like so far (the sample column is for our referencing convenience):&nbsp;&nbsp;
+<table border="1">
+<tbody><tr><td colspan="7" align="center"><b>W</b></td></tr>
+<tr><td><b>Sample</b></td><td colspan="5"><b>Key</b></td><td><b>Weight</b></td></tr>
+<tr><td>1</td><td>~b</td><td>~e</td><td>~a</td><td>~j</td><td>~m</td><td>0.997</td></tr>
+</tbody></table>
+
+<h4>Sample 2</h4>
+<ol>
+  <li>
+    Evidence is <em>Alarm=false</em> and <em>JohnCalls=true</em>.&nbsp;&nbsp;
+    We will now query the remaining nodes in the network to determine their state.
+  </li>
+  <li>
+    We now set the weight <em>w</em> is set to 1.0 and <em>x</em> to empty.
+  </li>
+  <li>
+    <em>Burglary</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (~b).
+  </li>
+  <li>
+    <em>Earthquake</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (~b,~e).
+  </li>
+  <li>
+    <em>Alarm</em> is an evidence variable with value <em>false</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>Alarm=false</em> | <em>Burglary=false</em>, <em>Earthquake=false</em>) = (1.0)(0.999) =  0.999&nbsp;&nbsp;
+    <br><em>x</em> = (~b,~e,~a).
+  </li>
+  <li>
+    <em>JohnCalls</em> is an evidence variable with value <em>true</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>JohnCalls=true</em> | <em>Alarm=false</em>) = (0.999)(0.05) =  0.05&nbsp;&nbsp;
+    <br><em>x</em> = (~b,~e,~a,j).
+  </li>
+  <li>
+    <em>MaryCalls</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (~b,~e,~a,j,~m).
+  </li>
+</ol>
+<br>
+Based on the above we now add (~b,~e,~a,j,~m) to W with a weight of 0.05:
+<table border="1">
+<tbody><tr><td colspan="7" align="center"><b>W</b></td></tr>
+<tr><td><b>Sample</b></td><td colspan="5"><b>Key</b></td><td><b>Weight</b></td></tr>
+<tr><td>1</td><td>~b</td><td>~e</td><td>~a</td><td>~j</td><td>~m</td><td>0.997</td></tr>
+<tr><td>2</td><td>~b</td><td>~e</td><td>~a</td><td>j</td><td>~m</td><td>0.05</td></tr>
+</tbody></table>
+
+<h4>Sample 3</h4>
+<ol>
+  <li>
+    Evidence is <em>JohnCalls=true</em> and <em>MaryCalls=true</em>.&nbsp;&nbsp;
+    We will now query the remaining nodes in the network to determine their state.
+  </li>
+  <li>
+    We now set the weight <em>w</em> is set to 1.0 and <em>x</em> to empty.
+  </li>
+  <li>
+    <em>Burglary</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (~b).
+  </li>
+  <li>
+    <em>Earthquake</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (~b,~e).
+  </li>
+  <li>
+    <em>Alarm</em> is not an evidence variable so we sample it; suppose it return <em>true</em>.
+    <br><em>x</em> = (~b,~e,a).
+  </li>
+  <li>
+    <em>JohnCalls</em> is an evidence variable with value <em>true</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>JohnCalls=true</em> | <em>Alarm=true</em>) = (1.0)(0.90) =  0.90&nbsp;&nbsp;
+    <br><em>x</em> = (~b,~e,a,j).
+  </li>
+  <li>
+    <em>MaryCalls</em> is an evidence variable with value <em>true</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>MaryCalls=true</em> | <em>Alarm=true</em>) = (0.90)(0.70) =  0.63&nbsp;&nbsp;
+    <br><em>x</em> = (~b,~e,a,j,m).
+  </li>
+</ol>
+<br>
+Based on the above we now add (~b,~e,a,j,m) to W with a weight of 0.63:
+<table border="1">
+<tbody><tr><td colspan="7" align="center"><b>W</b></td></tr>
+<tr><td><b>Sample</b></td><td colspan="5"><b>Key</b></td><td><b>Weight</b></td></tr>
+<tr><td>1</td><td>~b</td><td>~e</td><td>~a</td><td>~j</td><td>~m</td><td>0.997</td></tr>
+<tr><td>2</td><td>~b</td><td>~e</td><td>~a</td><td>j</td><td>~m</td><td>0.05</td></tr>
+<tr><td>3</td><td>~b</td><td>~e</td><td>a</td><td>j</td><td>m</td><td>0.63</td></tr>
+</tbody></table>
+
+<h4>Sample 4</h4>
+<ol>
+  <li>
+    Evidence is <em>Burglary=false</em>, <em>Earthquake=false</em>, and <em>JohnCalls=true</em>.&nbsp;&nbsp;
+    We will now query the remaining nodes in the network to determine their state.
+  </li>
+  <li>
+    We now set the weight <em>w</em> is set to 1.0 and <em>x</em> to empty.
+  </li>
+  <li>
+    <em>Burglary</em> is an evidence variable with value <em>false</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>Burglary=False</em>) = (1.0)(0.999) = 0.999&nbsp;&nbsp;
+    <br><em>x</em> = (~b).
+  </li>
+  <li>
+    <em>Earthquake</em> is an evidence variable with value <em>false</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>Earthquake=False</em>) = (0.999)(0.998) =  0.997&nbsp;&nbsp;
+    <br><em>x</em> = (~b,~e).
+  </li>
+  <li>
+    <em>Alarm</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (~b,~e,~a).
+  </li>
+  <li>
+    <em>JohnCalls</em> is an evidence variable with value <em>true</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>JohnCalls=true</em> | <em>Alarm=false</em>) = (0.997)(0.05) =  0.05&nbsp;&nbsp;
+    <br><em>x</em> = (~b,~e,~a,j).
+  </li>
+  <li>
+    <em>MaryCalls</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (~b,~e,~a,j,~m).
+  </li>
+</ol>
+<br>
+Based on the above we now add (~b,~e,~a,j,~m) to W with a weight of 0.05.&nbsp;&nbsp;
+However, note that (~b,~e,~a,j,~m) matches the key for sample 2.&nbsp;&nbsp;
+Therefore, the weight of 0.05 is added to the existing weight of 0.05 giving 0.10:
+<table border="1">
+<tbody><tr><td colspan="7" align="center"><b>W</b></td></tr>
+<tr><td><b>Sample</b></td><td colspan="5"><b>Key</b></td><td><b>Weight</b></td></tr>
+<tr><td>1</td><td>~b</td><td>~e</td><td>~a</td><td>~j</td><td>~m</td><td>0.997</td></tr>
+<tr><td>2</td><td>~b</td><td>~e</td><td>~a</td><td>j</td><td>~m</td><td>0.10</td></tr>
+<tr><td>3</td><td>~b</td><td>~e</td><td>a</td><td>j</td><td>m</td><td>0.63</td></tr>
+</tbody></table>
+
+<h4>Sample 5</h4>
+<ol>
+  <li>
+    Evidence is <em>Burglary=true</em> and <em>Earthquake=false</em>.&nbsp;&nbsp;
+    We will now query the remaining nodes in the network to determine their state.
+  </li>
+  <li>
+    We now set the weight <em>w</em> is set to 1.0 and <em>x</em> to empty.
+  </li>
+  <li>
+    <em>Burglary</em> is an evidence variable with value <em>true</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>Burglary=True</em>) = (1.0)(0.001) = 0.001&nbsp;&nbsp;
+    <br><em>x</em> = (b).
+  </li>
+  <li>
+    <em>Earthquake</em> is an evidence variable with value <em>false</em>.&nbsp;&nbsp;
+    Therefore, we set<br>
+    <em>w</em> = <em>w</em>p(<em>Earthquake=False</em>) = (.001)(0.998) =  0.001&nbsp;&nbsp;
+    <br><em>x</em> = (b,~e).
+  </li>
+  <li>
+    <em>Alarm</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (b,~e,~a).
+  </li>
+  <li>
+    <em>JohnCalls</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (b,~e,~a,~j,~m).
+  </li>
+  <li>
+    <em>MaryCalls</em> is not an evidence variable so we sample it; suppose it return <em>false</em>.
+    <br><em>x</em> = (b,~e,~a,~j,~m).
+  </li>
+</ol>
+<br>
+Based on the above we now add (b,~e,~a,~j,~m) to W with a weight of 0.001.&nbsp;&nbsp;
+<table border="1">
+<tbody><tr><td colspan="7" align="center"><b>W</b></td></tr>
+<tr><td><b>Sample</b></td><td colspan="5"><b>Key</b></td><td><b>Weight</b></td></tr>
+<tr><td>1</td><td>~b</td><td>~e</td><td>~a</td><td>~j</td><td>~m</td><td>0.997</td></tr>
+<tr><td>2</td><td>~b</td><td>~e</td><td>~a</td><td>j</td><td>~m</td><td>0.10</td></tr>
+<tr><td>3</td><td>~b</td><td>~e</td><td>a</td><td>j</td><td>m</td><td>0.63</td></tr>
+<tr><td>4</td><td>b</td><td>~e</td><td>~a</td><td>~j</td><td>~m</td><td>0.001</td></tr>
+</tbody></table>
+
+<h3>Using Likelihood Weights</h3>
+We will now use the sampling data collected above to compute some probabilities.
+<br>
+<ul>
+  <li>
+    In order to compute the probability of an event that is independent, such as P(<em>Burglary=true</em>), we 
+    sum the weight for every sample where <em>Burglary=true</em> and divide by the sum of all of
+    the weights.  For example, in the above data, the only sample where <em>Burglary=true</em> is
+    sample 4, with weight 0.001.  Therefore, p(<em>Burglary=true</em>)
+    = (0.001) / (0.997 + 0.10 + 0.63 + 0.001) = 0.001 / 1.728 = 0.00058
+  </li>
+  <li>
+    In order to compute the probability of an event, <em>X=true</em>,  that is dependent on another event,
+    <em>Y=true</em>, we sum the weights of all samples where <em>X=true</em> <b>and</b> 
+    <em>Y=true</em> and divide it by the sum of the weights of all samples where <em>Y=true</em>.
+    For example, if we want to compute p(a | j), we need to sum the weights of all samples where
+    we have both a and j (meaning <em>Alarm=True</em> and <em>JohnCalls=True</em>).  We find that
+    only sample 3 meets this criteria with a weight of 0.63.  We now sum the weights of all samples
+    that have j.  Only samples 2 and 3 meet this criteria with weights 0.10 and 0.63, respectively.
+    Putting this all together, we have p(a | j) = 0.63 / (0.10 + 0.63) = 0.63 / 0.73 = 0.863.
+  </li>
+  <li>
+    In the above data, the probability of an event that has never been observed is zero.  This is
+    because we have information about every node in the alarm network in every sample.  For example,
+    if we want to compute p(b | a), we need to sum the weights for all samples where we have both
+    b and a.  There are no such samples.  Therefore, the sum is zero and the probability is zero.
+  </li>
+</ul>
+<h3>Book</h3>
+Artificial Intelligence - A Modern Approach<br>
+<em>Second Edition</em><br>
+Stuart J. Russel and Peter Norvig<br>
+Prentice Hall, Pearson Education, Inc., NJ<br>
+2003<br>
+ISBN 0-13-790395-2<br>
+<h3>References</h3>
+Page 514 of the book.<br>
+<a href="http://www.cs.utah.edu/~hal/courses/2009S_AI/cs5300-day17-bayesnets3.pdf">Day 17 Slides 32-35</a>
+
+
+
+
+</body></html>
