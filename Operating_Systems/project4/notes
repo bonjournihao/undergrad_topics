@@ -1,0 +1,22 @@
+Open a file:
+	-search for existence, if not create FCB in open table
+File open talbe,keep track of :
+	-how many times a file is opened(maybe each user has a table)
+		if one of them is closed, don't write to disk write away
+	-file descriptor
+	-permission:
+	read, write, execute, append, delete, list directory,etc.
+	-file dates
+	-file owner
+	-file size
+	-file data block
+	-when closed(all), one enrty is removed
+copy file: mata data different, content the same
+reading writing opening(mark) closing moving(directory level),listing
+
+changes made within a single file by multiple users: immediately visible
+
+An important variation on linked allocation is the use of a file-allocation table (FAT). This simple but efficient method of disk-space allocation was used by the MS-DOS operating system. A section of disk at the beginning of each volume is set aside to contain the table. The table has one entry for each disk block and is indexed by block number. The FAT is used in much the same way as a linked list. The directory entry contains the block number of the first block of the file. The table entry indexed by that block number contains the block number of the next block in the file. This chain continues until it reaches the last block, which has a special end-of-file value as the table entry. An unused block is indicated by a table value of 0. Allocating a new block to a file is a simple matter of finding the first 0-valued table entry and replacing the previous end-of-file value with the address of the new block. The 0 is then replaced with the end-of-file value. 
+
+For subdirectories:
+	tree structure

@@ -1,0 +1,20 @@
+g++ -ansi -Wall -g -c city.cpp
+city.cpp:54:11: warning: address of array 'rhs.airport' will always evaluate to 'true' [-Wpointer-bool-conversion]
+  if (rhs.airport)
+  ~~  ~~~~^~~~~~~
+1 warning generated.
+g++ -ansi -Wall -g -c main.cpp
+In file included from main.cpp:7:
+./plane.h:28:23: warning: in-class initializer for static data member of type 'const double' is a GNU extension [-Wgnu-static-float-init]
+  static const double PPG = 3.39; 
+                      ^     ~~~~
+1 warning generated.
+g++ -ansi -Wall -g -c vector.cpp
+g++ -ansi -Wall -g -c plane.cpp
+In file included from plane.cpp:8:
+./plane.h:28:23: warning: in-class initializer for static data member of type 'const double' is a GNU extension [-Wgnu-static-float-init]
+  static const double PPG = 3.39; 
+                      ^     ~~~~
+1 warning generated.
+g++ -ansi -Wall -g -o simulator.out city.o main.o vector.o plane.o
+clang: warning: argument unused during compilation: '-ansi'

@@ -1,0 +1,3 @@
+Fatal design error: Implementation code found in header file.
+Fatal design error: Implementation code found in header file.
+Fatal design error: Implementation code found in header file.

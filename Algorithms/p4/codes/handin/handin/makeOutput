@@ -1,0 +1,14 @@
+g++ -Wall -ansi -g -c city.cpp
+g++ -Wall -ansi -g -c main.cpp
+main.cpp: In function ‘void determineBestPlane(const Plane*, int, const Vector*)’:
+main.cpp:71:27: error: invalid conversion from ‘const Plane*’ to ‘Plane*’ [-fpermissive]
+   &minDis, &minPass, &cost);
+                           ^
+In file included from main.cpp:7:0:
+plane.h:31:14: error:   initializing argument 1 of ‘static int Plane::getName(Plane*, int, const Vector*, int*, int*, int*)’ [-fpermissive]
+   static int getName(Plane *planes, int planeNum, const Vector *cities, \
+              ^
+main.cpp:85:42: error: passing ‘const Plane’ as ‘this’ argument of ‘char* Plane::getPlaneName()’ discards qualifiers [-fpermissive]
+   << planes[bestPlaneIndex].getPlaneName();
+                                          ^
+make: *** [main.o] Error 1

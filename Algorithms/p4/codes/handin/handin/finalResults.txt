@@ -1,0 +1,17 @@
+Scores from p4 for Zhou,Xie 
+Note that names should be last name, then a comma, and then first name, e.g. Davis, Sean
+
+Addresses used: xiezhou@ucdavis.edu  
+Ins.c: 
+OK
+Makefile-Debug.mk: 
+OK
+DDD: 10 out of 10
+Makefile-Debug.mk: 10 out of 10
+Style: 4 out of 4
+Design: 9 out of 9
+Const: 3 out of 4
+Operation: 0 out of 13
+Warnings (subtracted final score down to zero): 0
+Your program did not work so you will only receive points for design and consts.
+Total: 32 out of 50.

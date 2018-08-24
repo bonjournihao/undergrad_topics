@@ -1,0 +1,252 @@
+Scores from p1 for You need to create an authors.txt file!!!! No one will receive credit for this assignment
+
+Addresses used:  
+grepdir.sh testing
+1: 
+Yours: 
+
+Seans: 
+usage: grepdir.sh directory pattern [-grep option]*
+2: 
+Yours: 
+
+Seans: 
+usage: grepdir.sh directory pattern [-grep option]*
+3: 
+Yours: 
+
+Seans: 
+usage: grepdir.sh directory pattern [-grep option]*
+4: 
+Yours: 
+
+Seans: 
+#ifndef appointmentH
+#ifndef BTREE_H
+#ifndef BTreeNodeH
+#ifndef COURSES_H
+#ifndef CPUTIMER_H
+#ifndef _CursorList_H
+#ifndef dayH
+#ifndef dayofweekH
+        #ifndef _DSEXCEPTIONS_H_
+        #ifndef _DSEXCEPTIONS_H_
+#ifndef InternalNodeH
+#ifndef LeafNodeH
+        #ifndef _LinkedList_H
+                                                     #ifndef NO_CHECK
+                                                     #ifndef NO_CHECK
+                                                     #ifndef NO_CHECK
+    #ifndef NO_CHECK
+        #ifndef _QUEUEAR_H
+        #ifndef _QUEUEAR_H
+        #ifndef _QUEUELL_H
+#ifndef SKIPLIST_H 
+        #ifndef _STACKAR_H
+        #ifndef _STACKLI_H
+#ifndef timeH
+#ifndef _VECTOR_CPP_
+#ifndef _VECTOR_CPP_
+#ifndef _VECTOR_H
+#ifndef _VECTOR_H
+#ifndef VECTOR_H
+#ifndef yearH
+5: 
+Yours: 
+
+Seans: 
+TestFiles/appointment.h
+TestFiles/day.h
+TestFiles/dayofweek.h
+TestFiles/first/course.h
+TestFiles/first/third/BTree.h
+TestFiles/first/third/BTreeNode.h
+TestFiles/first/third/dsexceptions.h
+TestFiles/first/third/InternalNode.h
+TestFiles/first/third/LeafNode.h
+TestFiles/first/third/QueueAr.h
+TestFiles/first/third/vector.cpp
+TestFiles/first/third/vector.h
+TestFiles/first/vector.h
+TestFiles/second/CPUTimer.h
+TestFiles/second/CursorList.h
+TestFiles/second/dsexceptions.h
+TestFiles/second/LinkedList.h
+TestFiles/second/QueueAr.h
+TestFiles/second/QueueLL.h
+TestFiles/second/SkipList.h
+TestFiles/second/StackAr.h
+TestFiles/second/StackLi.h
+TestFiles/second/vector.cpp
+TestFiles/second/vector.h
+TestFiles/time.h
+TestFiles/year.h
+6: 
+Yours: 
+
+Seans: 
+TestFiles/appointment.h
+TestFiles/day.h
+TestFiles/dayofweek.h
+TestFiles/first/course.h
+TestFiles/first/third/BTree.h
+TestFiles/first/third/BTreeNode.h
+TestFiles/first/third/dsexceptions.h
+TestFiles/first/third/InternalNode.h
+TestFiles/first/third/LeafNode.h
+TestFiles/first/third/QueueAr.h
+TestFiles/first/third/vector.cpp
+TestFiles/first/third/vector.h
+TestFiles/first/vector.h
+TestFiles/second/CPUTimer.h
+TestFiles/second/CursorList.h
+TestFiles/second/dsexceptions.h
+TestFiles/second/LinkedList.h
+TestFiles/second/QueueAr.h
+TestFiles/second/QueueLL.h
+TestFiles/second/SkipList.h
+TestFiles/second/StackAr.h
+TestFiles/second/StackLi.h
+TestFiles/second/vector.cpp
+TestFiles/second/vector.h
+TestFiles/time.h
+TestFiles/year.h
+7: OK
+
+cpdirs.sh testing
+11: 
+Yours: 
+usage: cpdirs.sh source_directory1 source_directory2 dest_directory
+12: 
+Yours: 
+
+Seans: 
+usage: cpdirs.sh source_directory1 source_directory2 dest_directory
+13: 
+Yours: 
+
+Seans: 
+usage: cpdirs.sh source_directory1 source_directory2 dest_directory
+14: 
+Yours: 
+
+Seans: 
+
+
+
+
+
+
+
+
+
+
+
+// 1 appointment.cpp
+// 1 appointment.h
+// 1 day.cpp
+// 1 day.h
+// 1 dayofweek.h
+// 1 year.cpp
+// apointment.h
+// Author: Sean Davis calendar.cpp
+// Author: Sean Davis dayofweek.cpp
+// Author: Sean Davis time.cpp
+// Author: Sean Davis time.h
+// Author: Sean Davis year.h
+==> tempdir/apointment.h <==
+==> tempdir/appointment.cpp <==
+==> tempdir/appointment.h <==
+==> tempdir/calendar.cpp <==
+==> tempdir/day.cpp <==
+==> tempdir/day.h <==
+==> tempdir/dayofweek.cpp <==
+==> tempdir/dayofweek.h <==
+==> tempdir/time.cpp <==
+==> tempdir/time.h <==
+==> tempdir/year.cpp <==
+==> tempdir/year.h <==
+
+makemake.sh testing:
+31: 
+Yours: 
+./testhw: line 204: makemake.sh: command not found
+
+Seans: 
+Executable name required.
+usage: makemake.sh executable_name
+32: 
+Yours: 
+
+Seans: 
+appt.out : appointment.o calendar.o dayofweek.o time.o year.o  
+	g++ -ansi -Wall -g -o appt.out appointment.o calendar.o dayofweek.o time.o year.o  
+
+appointment.o : appointment.cpp appointment.h 
+	g++ -ansi -Wall -g -c appointment.cpp
+
+calendar.o : calendar.cpp year.h 
+	g++ -ansi -Wall -g -c calendar.cpp
+
+dayofweek.o : dayofweek.cpp dayofweek.h 
+	g++ -ansi -Wall -g -c dayofweek.cpp
+
+time.o : time.cpp time.h 
+	g++ -ansi -Wall -g -c time.cpp
+
+year.o : year.cpp year.h day.h 
+	g++ -ansi -Wall -g -c year.cpp
+
+clean : 
+	rm -f appt.out appointment.o  calendar.o  dayofweek.o  time.o  year.o   
+33: 
+Yours: 
+
+Seans: 
+appt1.out : appointment.o calendar.o dayofweek.o time.o year.o  
+	g++ -ansi -Wall -g -o appt1.out -O2 -pg appointment.o calendar.o dayofweek.o time.o year.o  
+
+appointment.o : appointment.cpp appointment.h 
+	g++ -ansi -Wall -g -c -O2 -pg appointment.cpp
+
+calendar.o : calendar.cpp year.h 
+	g++ -ansi -Wall -g -c -O2 -pg calendar.cpp
+
+dayofweek.o : dayofweek.cpp dayofweek.h 
+	g++ -ansi -Wall -g -c -O2 -pg dayofweek.cpp
+
+time.o : time.cpp time.h 
+	g++ -ansi -Wall -g -c -O2 -pg time.cpp
+
+year.o : year.cpp year.h day.h 
+	g++ -ansi -Wall -g -c -O2 -pg year.cpp
+
+clean : 
+	rm -f appt1.out appointment.o  calendar.o  dayofweek.o  time.o  year.o   
+
+gdb files fixed?
+
+Yours: 
+./testhw: line 255: a.out: command not found
+
+Seans: 
+Enter upper bound:
+3 is a prime
+5 is a prime
+7 is a prime
+11 is a prime
+13 is a prime
+17 is a prime
+19 is a prime
+23 is a prime
+29 is a prime
+31 is a prime
+37 is a prime
+41 is a prime
+43 is a prime
+47 is a prime
+grepdirScore: 1 out of 7
+cpdirsScore: 0 out of 8
+makemakeScore: 0 out of 21
+gdbScore: 0 out of 10
+totalScore: 1 out of 46

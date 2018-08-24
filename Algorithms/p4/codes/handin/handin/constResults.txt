@@ -1,0 +1,1 @@
+Const error: getName() of plane.h muat have two consts.

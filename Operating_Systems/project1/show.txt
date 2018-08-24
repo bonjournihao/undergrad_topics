@@ -1,0 +1,17 @@
+ls + nothing pipe
+
+-rwxr-xr-x .
+-rwxr-xr-x ..
+drw-r--r-- ashell.cpp
+drwxr-xr-x ashell.out
+-rwxr-xr-x ashell.out.dSYM
+drw-r--r-- ff.cpp
+drw-r--r-- getcwd().png
+-rwxr-xr-x mengda
+drw-r--r-- noncanmode.c
+drwxr-xr-x noncanmode.out
+-rwxr-xr-x noncanmode.out.dSYM
+drw-r--r-- Project01.pdf
+drw-r--r-- show.txt
+drw-r--r-- to.txt
+/Users/XieZhou/Documents/2nd_year_davis/spring_quarter/ECS150/project1

@@ -1,0 +1,21 @@
+Processing :  /home/cs40a/handin/p4/xiezhou/city.h
+Processing :  /home/cs40a/handin/p4/xiezhou/vector.h
+Processing :  /home/cs40a/handin/p4/xiezhou/plane.h
+Processing :  /home/cs40a/handin/p4/xiezhou/city.cpp
+Processing :  /home/cs40a/handin/p4/xiezhou/plane.cpp
+Processing :  /home/cs40a/handin/p4/xiezhou/vector.cpp
+Processing :  /home/cs40a/handin/p4/xiezhou/main.cpp
+
+
+=================================== Summary Report ===================================
+ ** Total Available Rules     : 52
+ ** Total Applied Rules       : 34
+ ** Total Violated Rules      : 0
+ ** Total Errors Occurs       : 0
+ ** Total Analyzed Files      : 7
+ ** Total Violated Files Count: 0
+ ** Build Quality             : 100.00%
+
+================================ Violated Rule Details ===============================
+
+================================ Violated File Details ===============================

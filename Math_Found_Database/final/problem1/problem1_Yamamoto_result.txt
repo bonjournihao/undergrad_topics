@@ -1,0 +1,26 @@
+Result for problem1_Yamamoto.zpl:
+
+x = 
+
+0 1 1 1 1
+0 0 1 1 1
+0 0 0 1 1
+0 0 0 0 0
+0 0 0 1 0
+
+
+rankings for:   HC  BS  JK  TC  DT
+		1   2   3   5   4
+
+Result for problem1_Yamamoto_absolution.zpl:
+
+x = 
+
+0 1 1 1 1
+0 0 1 1 1
+0 0 0 1 1
+0 0 0 0 1
+0 0 0 0 0
+
+rankings for:   HC  BS  JK  TC  DT
+		1   2   3   4   5

@@ -1,0 +1,36 @@
+Scores from p2 for ???
+You need to create an authors.txt file!!!! No one will receive credit for this assignment
+Addresses used: SeansSrc@ucdavis.edu
+
+
+BTree1.dat 3 4:
+OK
+ 
+BTree2.dat 3 4:
+OK
+  
+BTree5.dat 3 4:
+OK
+ 
+BTree12.dat 3 4:
+OK
+ 
+BTree25.dat 3 4:
+OK
+ 
+BTree5.dat 5 2:
+OK
+ 
+BTree12.dat 5 2:
+OK
+ 
+BTree25.dat 5 2:
+OK
+ 
+BTree12.dat 2 6:
+OK
+ 
+BTree25.dat 2 6:
+OK
+ 
+Total score: 50
